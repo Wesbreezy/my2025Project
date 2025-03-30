@@ -1,11 +1,12 @@
 package jetbrains.kotlin.course.alias.team
 
-import jetbrains.kotlin.course.alias.util.toArrayJsTeams
+import jetbrains.kotlin.course.util.toArrayJsTeams
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/teams/")
-class TeamResource(val service: TeamService) {
+class TeamResource(private val service: TeamService) {
+
     @CrossOrigin
     @PostMapping("/generate")
     fun generateTeamsForOneRound(@RequestBody number: Int) =
