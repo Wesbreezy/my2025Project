@@ -5,17 +5,17 @@ version = "0.0.1-SNAPSHOT"
 
 fun properties(key: String) = project.findProperty(key).toString()
 
-@Suppress("DSL_SCOPE_VIOLATION") // "libs" produces a false-positive warning, see https://youtrack.jetbrains.com/issue/KTIJ-19369
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     java
     val kotlinVersion = "1.7.10"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion apply false
+    id("org.jetbrains.kotlin.plugin.serialization") version kotlinVersion apply false
     id("org.jetbrains.kotlin.multiplatform") version kotlinVersion apply false
     id("org.springframework.boot") version "2.7.3" apply false
     id("io.spring.dependency-management") version "1.0.13.RELEASE" apply false
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion apply false
     id("io.gitlab.arturbosch.detekt") version "1.21.0"
-
     id("org.siouan.frontend-jdk11") version "6.0.0"
 }
 
@@ -103,15 +103,23 @@ configure(subprojects.filter { server in it.name }) {
         plugin("org.springframework.boot")
         plugin("io.spring.dependency-management")
         plugin("org.jetbrains.kotlin.plugin.spring")
+        plugin("org.jetbrains.kotlin.plugin.serialization") // Serialization plugin applied
     }
 
     dependencies {
         implementation(project(":common"))
         implementation(project(":utils"))
-
         implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.10")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1") // Downgraded for 1.7.10
+
+        // Add Spring Data JPA and H2 Database dependencies
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+        runtimeOnly("com.h2database:h2")
+
+        // Use javax.persistence instead of jakarta.persistence
+        implementation("javax.persistence:javax.persistence-api:2.2")
     }
 
     tasks.named("processResources") {
