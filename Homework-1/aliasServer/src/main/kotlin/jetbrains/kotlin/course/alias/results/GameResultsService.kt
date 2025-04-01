@@ -1,9 +1,8 @@
 package jetbrains.kotlin.course.alias.results
 
 import org.springframework.stereotype.Service
-import jetbrains.kotlin.course.alias.team.Team
 import jetbrains.kotlin.course.alias.team.TeamService
-import jetbrains.kotlin.course.util.getTeamById
+import jetbrains.kotlin.course.alias.util.getTeamById
 
 @Service
 class GameResultsService(

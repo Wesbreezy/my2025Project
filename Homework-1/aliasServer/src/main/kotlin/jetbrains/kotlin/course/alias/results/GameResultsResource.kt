@@ -3,7 +3,7 @@ package jetbrains.kotlin.course.alias.results
 import alias.JsTeam
 import org.springframework.web.bind.annotation.*
 import jetbrains.kotlin.course.alias.team.TeamService
-import jetbrains.kotlin.course.util.toGameResult
+import jetbrains.kotlin.course.alias.util.toGameResult
 
 class GameJsResult : ArrayList<JsTeam>()
 
